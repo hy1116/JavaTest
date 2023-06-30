@@ -1,5 +1,8 @@
 package codingTest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.Function;
@@ -7,6 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ProgrammersLv2Controller {
+	static Logger log = LoggerFactory.getLogger("ProgrammersLv2Controller");
+
 	// LV2. 문자열 압축
 	public static int solution_TextCompression(String s) {
 		int answer = s.length();
@@ -719,71 +724,49 @@ public class ProgrammersLv2Controller {
 	}
 	//LV2. 구명보트
 	public static int solution_rescue_boat(int[] people, int limit) {
+		int answer = 0;
+		Stack<Integer> peopleQueue = Arrays.stream(people).boxed().sorted()
+				.collect(Collectors.toCollection(Stack::new));
+		log.info("{} first : {}",peopleQueue,peopleQueue.pop());
+		while(!peopleQueue.isEmpty()){
+			answer++;
+			int weight = peopleQueue.pop();
+			if(limit == weight || limit - weight < peopleQueue.firstElement()) continue;
+			if(peopleQueue.removeElement(limit - weight)) continue;
+
+			int index = peopleQueue.size();
+			while(0 < index--){
+				if(peopleQueue.get(index) <= limit - weight){
+					peopleQueue.remove(index);
+					break;
+				}
+			}
+		}
 		/*
 		Arrays.sort(people);
 		int answer = 0;
-		int index = people.length;
-		while(0 <= --index){
-			int weight = people[index];
-			if(0 < weight) answer++;
-			if(limit <= weight) continue;
+		int minIdx = 0;
+		for(int i=people.length-1; 0 <= i; i--){
+			if(people[i] == 0) continue;
 
-			int i = index;
-			while(0 <= --i && 0 < people[i] && people[i] < limit - weight);
-			if( 0 < i ) people[i] = 0;
-		}
-		return answer;
-		*/
-
-		Stack<Integer> peopleList = Arrays.stream(people).boxed().sorted(Comparator.reverseOrder())
-				.collect(Collectors.toCollection(Stack<Integer>::new));
-
-		int answer = 0;
-		while(!peopleList.isEmpty()){
 			answer++;
-			int weight = peopleList.pop();
-			if(limit <= weight) continue;
-			if(1 < peopleList.size() && limit - weight < peopleList.lastElement()) continue;
-
-			if(peopleList.contains(limit-weight)){
-				peopleList.removeElement(limit-weight);
-			} else {
-				Optional i = peopleList.stream().filter(p -> p <= limit-weight).findFirst();
-				if(i.isPresent()) peopleList.remove(i.get());
-			}
-		}
-		return answer;
-
-		/*
-		Stack<Integer> peopleList = Arrays.stream(people).boxed().sorted()
-				.collect(Collectors.toCollection(Stack<Integer>::new));
-
-		int answer = 0, sum = 0;
-		while(!peopleList.isEmpty()){
-			int weight = peopleList.pop();
-			if(sum + weight < limit) {
-				sum += weight;
-			} else if(limit == sum + weight){
-				sum = 0;
-				answer++;
-			} else if(peopleList.contains(limit-sum)){
-				peopleList.removeElement(limit-sum);
-				sum = 0;
-				answer++;
-			} else{
-				peopleList.add(weight);
-				int finalSum = sum;
-				peopleList.remove(peopleList.stream().filter(a-> a < limit - finalSum).findFirst());
-				sum =0;
-				answer++;
-				continue;
+			int weight = people[i];
+			if(limit - weight < people[minIdx] || limit == weight) continue;
+			if(people[minIdx] == limit - weight){
+				people[minIdx] = 0;
+				minIdx++;
 			}
 
+			int idx = i-1;
+			while(0 <= --idx){
+				if(people[idx] != 0 && people[idx] <= limit - weight){
+					people[idx] = 0;
+					break;
+				}
+			}
 		}
-
-		return sum > 0 ? answer+1 : answer;
 		*/
-
+		return answer;
 	}
 
 	//LV2. 피로도

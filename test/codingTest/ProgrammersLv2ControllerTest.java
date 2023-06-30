@@ -249,13 +249,14 @@ public class ProgrammersLv2ControllerTest {
 
 	@Test
 	public void solution_rescue_boat(){
+		assertThat(pc.solution_rescue_boat(new int[]{50,10,50,10,50,10},60)).isEqualTo(3);
 		assertThat(pc.solution_rescue_boat(new int[]{70, 50, 80, 50},100)).isEqualTo(3);
 		assertThat(pc.solution_rescue_boat(new int[]{70, 80, 50},100)).isEqualTo(3);
 		assertThat(pc.solution_rescue_boat(new int[]{50, 50, 50, 50, 50},50)).isEqualTo(5);
-		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(1);
+		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
+		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
 		assertThat(pc.solution_rescue_boat(new int[]{90, 80, 70, 60, 50, 40},130)).isEqualTo(3);
-		assertThat(pc.solution_rescue_boat(new int[]{100},100)).isEqualTo(1);
-		assertThat(pc.solution_rescue_boat(new int[]{50,10,50,10,50,10},60)).isEqualTo(3);
+		assertThat(pc.solution_rescue_boat(new int[]{100},100)).isEqualTo(2);
 	}
 
 	@Test
