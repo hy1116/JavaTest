@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -687,7 +688,73 @@ public class ProgrammersLv2Controller {
 				}).sum();
 	}
 
-	//============================================================================
+	//LV2. 구명보트 23.07.03 드디어 ㅠ
+	public static int solution_rescue_boat(int[] people, int limit) {
+		Arrays.sort(people);
+
+		int answer = 0, minIdx = 0;
+		for(int i=people.length-1; 0 <= i; i--){
+			if(i < minIdx) break;
+			answer++;
+			int weight = people[i];
+			if(weight <= limit/2){
+				answer += Math.ceil((i - minIdx)/2);
+				break;
+			} else if(people[minIdx] + weight <= limit){
+				minIdx++;
+			}
+		}
+
+		return answer;
+	}
+
+	//LV2. H-index 23.07.03
+	public static int solution_h_index(int[] citations) {
+		AtomicInteger ai = new AtomicInteger(citations.length);
+		while(0 < ai.getAndDecrement()){
+			long upperCnt = Arrays.stream(citations).filter(a-> ai.get() < a).count();
+			if(ai.get() < upperCnt) break;
+		}
+		return ai.incrementAndGet();
+	}
+
+	//============================================================================\
+
+	//LV2. 피로도 23.07.03 [89.5 %]
+	public static int solution_fatigue(int k, int[][] dungeons) {
+		int answer = 0;
+
+		List<int[]> list = Arrays.stream(dungeons)
+				.sorted(Comparator
+						.comparing((int[] a)-> a[0]-a[1])
+						.thenComparing(a->a[0])
+						.thenComparing(a->a[1])
+						.reversed()
+				).collect(Collectors.toList());
+
+		for(int[] d : list){
+			if(k < d[0]) continue;
+			k -= d[1];
+			answer++;
+		}
+		/*
+		Map<Integer,Integer> map = new HashMap<>();
+		for(int[] dungeon: dungeons) map.put(dungeon[0],dungeon[1]);
+
+		List<Map.Entry<Integer,Integer>> listmap = map.entrySet().stream()
+				.sorted(Comparator.comparing((Map.Entry<Integer,Integer> a)-> a.getValue()-a.getKey()).thenComparing(Map.Entry::getKey))
+				.collect(Collectors.toList());
+
+		for(Map.Entry e : listmap){
+			log.info("[{},{}]",e.getKey(),e.getValue());
+			if(k < (int)e.getKey()) break;
+			k -= (int) e.getValue();
+			answer++;
+		}
+		*/
+		return answer;
+	}
+
 	//LV2. 땅따먹기
 	public static int solution_eat_the_ground(int[][] land) {
 		int answer = 0;
@@ -720,77 +787,6 @@ public class ProgrammersLv2Controller {
 				str.split("");
 			}
 		}
-		return answer;
-	}
-	//LV2. 구명보트
-	public static int solution_rescue_boat(int[] people, int limit) {
-		int answer = 0;
-		Stack<Integer> peopleQueue = Arrays.stream(people).boxed().sorted()
-				.collect(Collectors.toCollection(Stack::new));
-		log.info("{} first : {}",peopleQueue,peopleQueue.pop());
-		while(!peopleQueue.isEmpty()){
-			answer++;
-			int weight = peopleQueue.pop();
-			if(limit == weight || limit - weight < peopleQueue.firstElement()) continue;
-			if(peopleQueue.removeElement(limit - weight)) continue;
-
-			int index = peopleQueue.size();
-			while(0 < index--){
-				if(peopleQueue.get(index) <= limit - weight){
-					peopleQueue.remove(index);
-					break;
-				}
-			}
-		}
-		/*
-		Arrays.sort(people);
-		int answer = 0;
-		int minIdx = 0;
-		for(int i=people.length-1; 0 <= i; i--){
-			if(people[i] == 0) continue;
-
-			answer++;
-			int weight = people[i];
-			if(limit - weight < people[minIdx] || limit == weight) continue;
-			if(people[minIdx] == limit - weight){
-				people[minIdx] = 0;
-				minIdx++;
-			}
-
-			int idx = i-1;
-			while(0 <= --idx){
-				if(people[idx] != 0 && people[idx] <= limit - weight){
-					people[idx] = 0;
-					break;
-				}
-			}
-		}
-		*/
-		return answer;
-	}
-
-	//LV2. 피로도
-	public static int solution_fatigue(int k, int[][] dungeons) {
-		int answer = 0;
-
-		List<int[]> list = Arrays.stream(dungeons).collect(Collectors.toList());
-		/*
-		int idx = 0;
-		while(idx < dungeons.length){
-			if(k < list.get(idx)[0]){
-				int[] temp = list.get(idx);
-				list.set(idx,list.get(idx-1));
-				list.set(idx-1,temp);
-				idx = 0;
-				answer = 0;
-				continue;
-			} else{
-				answer++;
-				idx++;
-			}
-			k -= list.get(idx-1)[1];
-		}
-		*/
 		return answer;
 	}
 
@@ -980,26 +976,6 @@ public class ProgrammersLv2Controller {
 		return answer;
 	}
 
-
-	//LV2. H-index
-	public static int solution_h_index(int[] citations) {
-		int[] first = Arrays.stream(citations).boxed().sorted(Comparator.reverseOrder())
-				.filter(i -> i <= Arrays.stream(citations).filter(f->i<=f).count())
-				.mapToInt(m->m).toArray();
-
-		return Arrays.stream(first).filter(i -> Arrays.stream(first).filter(f->i<f).count() == 0).findFirst().getAsInt();
-	}
-
-
-	public static void printMine(List<List<Integer>> listList){
-		System.out.println("-------------------------------------- printMine");
-		for(List<Integer> list : listList){
-			for(Integer i : list){
-				System.out.print("\t"+i);
-			}
-			System.out.println();
-		}
-	}
 
 	public static int skill3(int sticker[]){
 		int answer = 0;

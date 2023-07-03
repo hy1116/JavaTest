@@ -164,11 +164,6 @@ public class ProgrammersLv2ControllerTest {
 	}
 
 	@Test
-	public void solution_h_index_test(){
-		assertThat(pc.solution_h_index(new int[]{3, 0, 6, 1, 5})).isEqualTo(3);
-	}
-
-	@Test
 		public void solution_phonebook(){
 		assertThat(pc.solution_phonebook(new String[]{"119", "97674223", "1195524421"})).isEqualTo(false);
 		assertThat(pc.solution_phonebook(new String[]{"123","456","789"})).isEqualTo(true);
@@ -223,7 +218,35 @@ public class ProgrammersLv2ControllerTest {
 		assertThat(pc.solution_mineral(new int[]{0, 1, 1},new String[]{"diamond", "diamond", "diamond", "diamond", "diamond", "iron", "iron", "iron", "iron", "iron", "diamond"})).isEqualTo(50);
 	}
 
+	@Test
+	public void solution_rescue_boat(){
+		assertThat(pc.solution_rescue_boat(new int[]{70, 50, 80, 50},100)).isEqualTo(3);
+		assertThat(pc.solution_rescue_boat(new int[]{50,10,50,10,50,10},60)).isEqualTo(3);
+		assertThat(pc.solution_rescue_boat(new int[]{70, 80, 50},100)).isEqualTo(3);
+		assertThat(pc.solution_rescue_boat(new int[]{50, 50, 50, 50, 50},50)).isEqualTo(5);
+		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
+		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
+		assertThat(pc.solution_rescue_boat(new int[]{90, 80, 70, 60, 50, 40},130)).isEqualTo(3);
+		assertThat(pc.solution_rescue_boat(new int[]{100},100)).isEqualTo(1);
+	}
+
+	@Test
+	public void solution_h_index_test(){
+		assertThat(pc.solution_h_index(new int[]{3, 0, 6, 1, 5})).isEqualTo(3);
+		assertThat(pc.solution_h_index(new int[]{7, 7, 7, 7, 3})).isEqualTo(4);
+		assertThat(pc.solution_h_index(new int[]{2, 0, 4, 12, 10})).isEqualTo(2);
+	}
+
 	//======================================================================================
+
+	@Test
+	public void solution_fatigue(){
+		assertThat(pc.solution_fatigue(70,new int[][]{{100,10},{100,10},{80,20},{60,10},{60,10},{100,30}})).isEqualTo(2);
+		assertThat(pc.solution_fatigue(80,new int[][]{{80,20},{50,40},{30,10}})).isEqualTo(3);
+		assertThat(pc.solution_fatigue(60,new int[][]{{10,10},{20,20},{30,30}})).isEqualTo(3);
+		assertThat(pc.solution_fatigue(70,new int[][]{{10,10},{10,10},{20,20},{30,30}})).isEqualTo(4);
+		assertThat(pc.solution_fatigue(80,new int[][]{{100,10},{100,10},{100,20},{100,30}})).isEqualTo(0);
+	}
 
 	@Test
 	public void solution_max_square_test(){
@@ -245,23 +268,6 @@ public class ProgrammersLv2ControllerTest {
 	@Test
 	public void solution_course(){
 		assertThat(pc.solution_course(new String[]{"ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"},new int[]{2,3,4})).isEqualTo(new String[]{"AC", "ACDE", "BCFG", "CDE"});
-	}
-
-	@Test
-	public void solution_rescue_boat(){
-		assertThat(pc.solution_rescue_boat(new int[]{50,10,50,10,50,10},60)).isEqualTo(3);
-		assertThat(pc.solution_rescue_boat(new int[]{70, 50, 80, 50},100)).isEqualTo(3);
-		assertThat(pc.solution_rescue_boat(new int[]{70, 80, 50},100)).isEqualTo(3);
-		assertThat(pc.solution_rescue_boat(new int[]{50, 50, 50, 50, 50},50)).isEqualTo(5);
-		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
-		assertThat(pc.solution_rescue_boat(new int[]{60, 60, 60, 60},240)).isEqualTo(2);
-		assertThat(pc.solution_rescue_boat(new int[]{90, 80, 70, 60, 50, 40},130)).isEqualTo(3);
-		assertThat(pc.solution_rescue_boat(new int[]{100},100)).isEqualTo(2);
-	}
-
-	@Test
-	public void solution_fatigue(){
-		assertThat(pc.solution_fatigue(80,new int[][]{{80,20},{50,30},{30,10}})).isEqualTo(3);
 	}
 
 	@Test
