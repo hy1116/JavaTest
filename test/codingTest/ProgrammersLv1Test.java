@@ -1,10 +1,12 @@
 package codingTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import codingTest.ProgrammersLv1;
 import org.junit.jupiter.api.Test;
 
-public class ProgrammersLv1ControllerTest {
-	ProgrammersLv1Controller pc = new ProgrammersLv1Controller();
+public class ProgrammersLv1Test {
+	ProgrammersLv1 pc = new ProgrammersLv1();
 	
 	@Test
 	public void solution_RepostResult_test() { // 신고 결과 받기 

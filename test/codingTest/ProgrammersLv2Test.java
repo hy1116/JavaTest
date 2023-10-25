@@ -1,11 +1,12 @@
 package codingTest;
 
+import codingTest.ProgrammersLv2;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ProgrammersLv2ControllerTest {
-	private ProgrammersLv2Controller pc = new ProgrammersLv2Controller();
+public class ProgrammersLv2Test {
+	private ProgrammersLv2 pc = new ProgrammersLv2();
 
 	@Test
 	public void solution_TextCompression_test() { // 문자열 압축

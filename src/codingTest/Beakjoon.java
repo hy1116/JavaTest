@@ -1,7 +1,6 @@
 package codingTest;
 
 import java.io.*;
-import java.util.*;
 import java.util.stream.*;
 
 /* 백준 제출방법
@@ -16,7 +15,7 @@ public class Main {
         bw.flush();
 }
 */
-public class BeakjoonController {
+public class Beakjoon {
     // 숌 코드 https://www.acmicpc.net/problem/1651
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

@@ -1,12 +1,6 @@
 package codingTest;
 
-import java.math.BigInteger;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-public class CodilityController {
+public class Codility {
 	public static int solution_binary_gap(int N) {
 		int result = 0;
 		String[] s = Integer.toBinaryString(N).split("");

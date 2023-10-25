@@ -2,14 +2,13 @@ package codingTest;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ProgrammersLv1Controller {
+public class ProgrammersLv1 {
 	// Lv.1 신고 결과 받기
-	public static int[] solution_RepostResult(String[] id_list, String[] report, int k) {
+	public int[] solution_RepostResult(String[] id_list, String[] report, int k) {
 		Map<String, Integer> repomap = new HashMap<>(); // 신고 당한 횟수
 		Map<String, List<String>> repomapList = new HashMap<>(); // 신고 기록
 		Arrays.asList(id_list).forEach(id -> {
@@ -27,8 +26,8 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV.1 키패드 누르기
-	public static String solution_keypadPress(int[] numbers, String hand) {
-		String answer = "";
+	public String solution_keypadPress(int[] numbers, String hand) {
+		StringBuilder answer = new StringBuilder();
 
 		int[] left_current = {3, 0}, right_current = {3, 2}; // 왼손, 오른손 현재위치
 		for (int num : numbers) {
@@ -36,13 +35,13 @@ public class ProgrammersLv1Controller {
 				case 1:
 				case 4:
 				case 7: // 1,4,7은 무조건 왼손
-					answer += "L";
+					answer.append("L");
 					left_current = clac_curr_location(num);
 					break;
 				case 3:
 				case 6:
 				case 9: // 3,6,9는 무조건 오른손
-					answer += "R";
+					answer.append("R");
 					right_current = clac_curr_location(num);
 					break;
 				case 2:
@@ -54,20 +53,20 @@ public class ProgrammersLv1Controller {
 					int right_distinct = Math.abs(curr_loca[0] - right_current[0]) + Math.abs(curr_loca[1] - right_current[1]);
 
 					if (left_distinct < right_distinct || (left_distinct == right_distinct) && "left".equals(hand)) {
-						answer += "L";
+						answer.append("L");
 						left_current = clac_curr_location(num);
 					} else {
-						answer += "R";
+						answer.append("R");
 						right_current = clac_curr_location(num);
 					}
 					break;
 			}
 		}
 
-		return answer;
+		return answer.toString();
 	}
 
-	public static int[] clac_curr_location(int num) { // 키패드 위치 계산
+	public int[] clac_curr_location(int num) { // 키패드 위치 계산
 		String[][] keypads = {{"1", "2", "3"}, {"4", "5", "6"}, {"7", "8", "9"}, {"*", "0", "#"}}; // 2차원 키패드 배열
 
 		int[] result = {0, 0};
@@ -81,7 +80,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 실패율
-	public static int[] solution_failureRate(int N, int[] stages) {
+	public int[] solution_failureRate(int N, int[] stages) {
 		return IntStream.range(1, N + 1).boxed()
 				.collect(Collectors.toMap(Function.identity(), i ->
 						(Arrays.stream(stages).filter(s2 -> s2 >= i).count() > 0) ?
@@ -92,7 +91,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV.1 [1차] 비밀지도
-	public static String[] solution_secretMap(int n, int[] arr1, int[] arr2) {
+	public String[] solution_secretMap(int n, int[] arr1, int[] arr2) {
 		String[] answer = new String[n];
 
 		String[] str_arr1 = Arrays.stream(arr1).boxed()
@@ -114,7 +113,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV.1 x만큼 간격이 있는 n개의 숫자
-	public static long[] solution_xn(int x, int n) {
+	public long[] solution_xn(int x, int n) {
 		long[] answer = new long[n];
 
 		int cnt = 0;
@@ -127,7 +126,7 @@ public class ProgrammersLv1Controller {
 
 	// LV.1 [1차] 다트게임
 	enum sdt {S, D, T}
-	public static int solution_DartGame(String dartResult) {
+	public int solution_DartGame(String dartResult) {
 		String[] oparr = dartResult.split("[0-9]+");
 		String[] numarr = dartResult.split("([SDT])([*#])?");
 
@@ -156,19 +155,19 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 음양 더하기
-	public static int solution_addInt(int[] absolutes, boolean[] signs) {
+	public int solution_addInt(int[] absolutes, boolean[] signs) {
 		return IntStream.range(0, absolutes.length).boxed().mapToInt(i -> signs[i] ? absolutes[i] : -absolutes[i]).sum();
 	}
 
 	// LV1. 없는 숫자 더하기
-	public static int solution_existNum(int[] numbers) {
+	public int solution_existNum(int[] numbers) {
 		int answer = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9;
 		for (int n : numbers) answer -= n;
 		return answer;
 	}
 
 	// LV1. 두정수 사이의 합
-	public static long solution_sumBetweenInt(int a, int b) {
+	public long solution_sumBetweenInt(int a, int b) {
 		int min = Math.min(a, b);
 		int max = Math.max(a, b);
 		long answer = min;
@@ -181,11 +180,7 @@ public class ProgrammersLv1Controller {
 
 	// LV1. 수박수박수박수..
 	public String solution_watermelon(int n) {
-		String answer = "";
-		for (int i = 0; i < n; i++) {
-			answer += n % 2 == 0 ? "수" : "박";
-		}
-		return answer;
+		return (n % 2 == 0 ? "수" : "박").repeat(Math.max(0, n));
 	}
 
 	// LV1. p와 y의 갯수
@@ -195,18 +190,19 @@ public class ProgrammersLv1Controller {
 			if (c == 'p') p++;
 			if (c == 'y') y++;
 		}
-		if (p == y) return true;
-		else return false;
+        return p == y;
 	}
 
 	// LV1. 평균
 	public double solution_avg(int[] arr) {
-		return Arrays.stream(arr).average().getAsDouble();
+		OptionalDouble answer = Arrays.stream(arr).average();
+		return answer.isPresent()?answer.getAsDouble():0;
 	}
 
 	// LV1. 나머지가 1이 되는 수 찾기
-	public int solution_namaji(int n) {
-		return IntStream.rangeClosed(3, n).filter(i -> n % i == 1).findFirst().getAsInt();
+	public int solution_remain(int n) {
+		OptionalInt answer = IntStream.rangeClosed(3, n).filter(i -> n % i == 1).findFirst();
+		return answer.isPresent()?answer.getAsInt():0;
 	}
 
 	// LV1. 나머지가 1이 되는 수 찾기
@@ -226,37 +222,37 @@ public class ProgrammersLv1Controller {
 
 	// LV1. 전화번호 가리기
 	public String solution_maskingPhoneNumber(String phone_number) {
-		String answer = "";
+		StringBuilder answer = new StringBuilder();
 		for (int i = 0; i < phone_number.length(); i++) {
 			if (phone_number.length() - 4 < i) {
-				answer += phone_number.charAt(i);
-			} else answer += "*";
+				answer.append(phone_number.charAt(i));
+			} else answer.append("*");
 		}
-		return answer;
+		return answer.toString();
 	}
 
 	// LV1. 이상한 문자열만들기
-	public static String solution_strangeString(String s) {
-		String answer = "";
+	public String solution_strangeString(String s) {
+		StringBuilder answer = new StringBuilder();
 		boolean flag = false;
 		int idx = -1;
 		while (++idx < s.length()) {
 			if (s.charAt(idx) == ' ') {
-				answer += " ";
+				answer.append(" ");
 				flag = false;
 			} else if (flag) {
-				answer += String.valueOf(s.charAt(idx)).toLowerCase();
+				answer.append(String.valueOf(s.charAt(idx)).toLowerCase());
 				flag = false;
 			} else {
-				answer += String.valueOf(s.charAt(idx)).toUpperCase();
+				answer.append(String.valueOf(s.charAt(idx)).toUpperCase());
 				flag = true;
 			}
 		}
-		return answer;
+		return answer.toString();
 	}
 
 	//LV1. 정수 내림차순으로 정렬하기
-	public static long solution_IntDesc(long n) {
+	public long solution_IntDesc(long n) {
 		long answer = 0;
 		List<Long> numarr = new ArrayList<>();
 		while (0 < n) {
@@ -265,47 +261,50 @@ public class ProgrammersLv1Controller {
 		}
 		numarr.sort(Comparator.reverseOrder());
 		for (int i = 0; i < numarr.size(); i++) {
-			answer += numarr.get(i) * Math.pow(10, numarr.size() - i - 1);
+			answer += (long) (numarr.get(i) * Math.pow(10, numarr.size() - i - 1));
 		}
 
 		return answer;
 	}
 
 	// LV1. 자연수 뒤집어 배열로 만들기
-	public static int[] solution_reverseIntArr(long n) {
+	public int[] solution_reverseIntArr(long n) {
 		List<Long> numarr = new ArrayList<>();
 		while (0 < n) {
 			numarr.add(n % 10);
 			n /= 10;
 		}
-		return numarr.stream().mapToInt(a ->a.intValue()).toArray();
+		return numarr.stream().mapToInt(Long::intValue).toArray();
 	}
 
 	//LV1. 문자열 내 쪼대로 정렬하기
 	public String[] solution_StringOrder(String[] strings, int n) {
 		return Arrays.stream(strings)
-				.sorted(Comparator.comparing(s1 -> String.valueOf(s1).charAt(n)).thenComparing(s2 -> String.valueOf(s2)))
+				.sorted(Comparator.comparing(s1 -> String.valueOf(s1).charAt(n)).thenComparing(String::valueOf))
 				.toArray(String[]::new);
 	}
 
 	//LV1. 시저암호
-	public static String solution_SecretCode(String s, int n) {
-		String answer = "";
+	public String solution_SecretCode(String s, int n) {
+		StringBuilder answer = new StringBuilder();
 		for(int i=0;i<s.length();i++){
-			if(s.charAt(i)==' ') answer += ' ';
-			else if(s.charAt(i) <= 90 && 90 < s.charAt(i)+n){
-				answer += Character.toString(s.charAt(i)+n-26);
+			if(s.charAt(i)==' ') answer.append(' ');
+			else {
+				String string = Character.toString(s.charAt(i) + n - 26);
+				if(s.charAt(i) <= 90 && 90 < s.charAt(i)+n){
+					answer.append(string);
+				}
+				else if(97 <= s.charAt(i) && 122 < s.charAt(i)+n){
+					answer.append(string);
+				}
+				else answer.append(Character.toString(s.charAt(i) + n));
 			}
-			else if(97 <= s.charAt(i) && 122 < s.charAt(i)+n){
-				answer += Character.toString(s.charAt(i)+n-26);
-			}
-			else answer += Character.toString(s.charAt(i)+n);
 		}
-		return answer;
+		return answer.toString();
 	}
 
 	//LV1. 소수찾기
-	public static int solution_findDecimal(int n) {
+	public int solution_findDecimal(int n) {
 		int answer = 0;
 		for(int i =2;i<=n;i++){
 			boolean flag = false;
@@ -322,11 +321,11 @@ public class ProgrammersLv1Controller {
 	}
 
 	//LV1. 3진법
-	public static int solution_three(int n) {
+	public int solution_three(int n) {
 		int answer = 0;
-		String three = "";
+		StringBuilder three = new StringBuilder();
 		while(0 < n){
-			three += String.valueOf(n%3);
+			three.append(n % 3);
 			n /= 3;
 		}
 		for(int i=0;i<three.length();i++){
@@ -347,20 +346,20 @@ public class ProgrammersLv1Controller {
 	}
 
 	//LV1. 약수의 갯수와 덧셈
-	public static int solution_addMeasure(int left, int right) {
+	public int solution_addMeasure(int left, int right) {
 		return IntStream.rangeClosed(left,right).map(i -> IntStream.rangeClosed(1,i).filter(j-> i %j==0).count()%2==0?i:-i).sum();
 	}
 
 	//LV1. 부족한 금액 계산하기
-	public static long solution_calcMoney(int price, long money, int count) {
+	public long solution_calcMoney(int price, long money, int count) {
 		for(int i=1;i<=count;i++){
-			money -= price*i;
+			money -= (long) price *i;
 		}
 		return money<0?Math.abs(money):0;
 	}
 
 	//LV1. 소수 만들기
-	public static int solution_makeDecimal(int[] nums) {
+	public int solution_makeDecimal(int[] nums) {
 		int answer = 0;
 		for (int i=0;i<nums.length-2;i++){
 			for (int j=i+1;j<nums.length-1;j++){
@@ -373,34 +372,24 @@ public class ProgrammersLv1Controller {
 		return answer;
 	}
 
-	//LV1. 최소 직사각형
-	public int solution_leastSquare(int[][] sizes) {
-		int maxw = 0,maxh=0;
-		for(int i=0;i<sizes.length;i++){
-			if(maxw < sizes[i][0]) maxw = sizes[i][0];
-			if(maxh < sizes[i][1]) maxw = sizes[i][1];
-		}
-		return maxw*maxh;
-	}
-
 	//LV1. 폰켓몬
 	public int solution_phoneKetMon(int[] nums) {
 		int answer = nums.length/2;
 		int kind = (int)Arrays.stream(nums).distinct().count();
-		return answer<kind?answer:kind;
+		return Math.min(answer, kind);
 	}
 
 	//LV1. 체육복
-	public static int solution_gymClothes(int n, int[] lost, int[] reserve) {
+	public int solution_gymClothes(int n, int[] lost, int[] reserve) {
 		int answer = n;
 		Map<Integer,String> map = new HashMap<>();
 		for(int i=1;i<=n;i++) map.put(i,null); // 학생 수 만큼 배열 생성
-		for(int i=0;i<lost.length;i++) map.put(lost[i],"lost"); // 도둑맞은 학생
-		for(int i=0;i<reserve.length;i++){
-			// 잃어버린 학생이 여분있을경우 상쇄
-			if("lost".equals(map.get(reserve[i]))) map.put(reserve[i],null);
-			else map.put(reserve[i],"reserve");
-		}
+        for (int j : lost) map.put(j, "lost"); // 도둑맞은 학생
+        for (int j : reserve) {
+            // 잃어버린 학생이 여분있을경우 상쇄
+            if ("lost".equals(map.get(j))) map.put(j, null);
+            else map.put(j, "reserve");
+        }
 		for(int i=0;i<=map.size();i++){
 			if("lost".equals(map.get(i))){
 				if(map.get(i-1)!=null && "reserve".equals(map.get(i-1))) {
@@ -417,7 +406,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	//LV1. 모의고사
-	public static int[] solution_MathTest(int[] answers) {
+	public int[] solution_MathTest(int[] answers) {
 		List<Integer> answer = new ArrayList<>();
 
 		int[] supo1arr = {1, 2, 3, 4, 5, 1, 2, 3, 4, 5};
@@ -426,9 +415,9 @@ public class ProgrammersLv1Controller {
 		int supo1=0,supo2=0,supo3=0;
 
 		for (int i=0;i<answers.length;i++){
-			if(supo1arr[i-(int)(Math.floor(i/supo1arr.length)*supo1arr.length)]==answers[i]) supo1++;
-			if(supo2arr[i-(int)(Math.floor(i/supo2arr.length)*supo2arr.length)]==answers[i]) supo2++;
-			if(supo3arr[i-(int)(Math.floor(i/supo3arr.length)*supo3arr.length)]==answers[i]) supo3++;
+			if(supo1arr[i-(int)(Math.floor((double) i /supo1arr.length)*supo1arr.length)]==answers[i]) supo1++;
+			if(supo2arr[i-(int)(Math.floor((double) i /supo2arr.length)*supo2arr.length)]==answers[i]) supo2++;
+			if(supo3arr[i-(int)(Math.floor((double) i /supo3arr.length)*supo3arr.length)]==answers[i]) supo3++;
 		}
 		int max = Math.max(supo1,supo2);
 		max = Math.max(max,supo3);
@@ -447,8 +436,8 @@ public class ProgrammersLv1Controller {
 	4번 지표	어피치형(A), 네오형(N)
 	*/
 	// LV1. 성격유형검사 2023.02.14 완료
-	public static String solution_mbti(String[] survey, int[] choices) {
-		String answer = "";
+	public String solution_mbti(String[] survey, int[] choices) {
+		StringBuilder answer = new StringBuilder();
 		Map<String,Integer> surveymap = new HashMap<>();
 
 		for(int i=0;i<survey.length;i++){
@@ -478,15 +467,15 @@ public class ProgrammersLv1Controller {
 			int front = surveymap.get(first)!=null?surveymap.get(first):0;
 			int back = surveymap.get(second)!=null?surveymap.get(second):0;
 			if(front < back)
-				answer+=second;
+				answer.append(second);
 			else
-				answer+=first;
+				answer.append(first);
 		}
-		return answer;
+		return answer.toString();
 	}
 
 	// LV1. 개인정보 유효기간 2023.02.14 완료
-	public static int[] solution_privacyInfo(String today, String[] terms, String[] privacies){
+	public int[] solution_privacyInfo(String today, String[] terms, String[] privacies){
 		List<Integer> answer = new ArrayList<>();
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -509,14 +498,14 @@ public class ProgrammersLv1Controller {
 				}
 			}
 		} catch (Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return answer.stream().mapToInt(a->a).toArray();
 	}
 
 	// LV1. 숫자 짝궁 2023.02.15 완료
-	public static String solution_number_partner(String X, String Y) {
-		String answer = "";
+	public String solution_number_partner(String X, String Y) {
+		StringBuilder answer = new StringBuilder();
 
 		long x_len = X.split("").length;
 		long y_len = Y.split("").length;
@@ -525,22 +514,22 @@ public class ProgrammersLv1Controller {
 			Y = Y.replace(String.valueOf(i),"");
 			long x_cnt = x_len - X.length();
 			long y_cnt = y_len - Y.length();
-			answer += String.valueOf(i).repeat((int)Math.min(x_cnt,y_cnt));
+			answer.append(String.valueOf(i).repeat((int) Math.min(x_cnt, y_cnt)));
 			x_len = X.length();
 			y_len = Y.length();
 		}
 
-		if("".equals(answer)){
-			answer = "-1";
-		} else if("".equals(answer.replace("0",""))){
-			answer = "0";
+		if(answer.toString().isEmpty()){
+			answer = new StringBuilder("-1");
+		} else if(answer.toString().replace("0", "").isEmpty()){
+			answer = new StringBuilder("0");
 		}
 
-		return answer;
+		return answer.toString();
 	}
 
 	// LV1. 삼총사
-	public static int solution_trio(int[] number) {
+	public int solution_trio(int[] number) {
 		int answer = 0;
 		for(int i=0;i<number.length-2;i++){
 			for(int j=i+1;j<number.length-1;j++){
@@ -553,7 +542,7 @@ public class ProgrammersLv1Controller {
 		return answer;
 	}
 	// LV1. 콜라문제 23.03.15
-	public static int solution_coke(int a, int b, int n) {
+	public int solution_coke(int a, int b, int n) {
 		// a병당 b개의 병 받음, n개 소유
 		// n:20 -> 10병 -> 5병 -> 2병+1=3 -> 1병+1=2 -> 1병
 		int answer = 0;
@@ -564,7 +553,7 @@ public class ProgrammersLv1Controller {
 		return answer;
 	}
 
-	public static int solution1(String[] strarr){
+	public int solution1(String[] strarr){
 		for(int i=0;i<strarr.length;i++){
 			if("+".equals(strarr[i])) strarr[i] = String.valueOf(Integer.valueOf(strarr[i-1])+Integer.valueOf(strarr[i-2]));
 			else if("R".equals(strarr[i])) strarr[i] = strarr[i-1] = String.valueOf(0);
@@ -573,22 +562,23 @@ public class ProgrammersLv1Controller {
 		return Arrays.stream(strarr).mapToInt(Integer::valueOf).sum();
 	}
 
-	public static int solution2(int[] arr1, int[] arr2){
+	public int solution2(int[] arr1, int[] arr2){
 		List<Integer> arr2list = Arrays.stream(arr2).boxed().collect(Collectors.toList());
-		return Arrays.stream(arr1).filter(arr2list::contains).min().getAsInt();
+		OptionalInt min =Arrays.stream(arr1).filter(arr2list::contains).min();
+		return min.isPresent()?min.getAsInt():0;
 	}
 
-	public static String solution3(String str){
+	public String solution3(String str){
 		return Arrays.stream(str.split("")).distinct()
 				.collect(Collectors.toMap(Function.identity(),r -> Arrays.stream(str.split("")).filter(r::equals).count()))
 				.entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry::getKey))
 				.map(r->r.getKey().repeat(r.getValue().intValue())).collect(Collectors.joining());
 	}
 
-	static String[] opArr, numArr;
-	static String[] caseArr;
-	static List<String> caseList;
-	public static int[] solution4_v2(String str){
+	String[] opArr, numArr;
+	String[] caseArr;
+	List<String> caseList;
+	public int[] solution4_v2(String str){
 		numArr = str.split("[-*+]");
 		opArr = str.split("[0-9]");
 
@@ -629,12 +619,12 @@ public class ProgrammersLv1Controller {
 			}
 			map.put(formulaArr[lastIdx],calcArr[lastIdx]);
 		}
-		map.entrySet().forEach(m-> System.out.println(m.getKey()+" = "+m.getValue()));
+		//map.entrySet().forEach(m-> System.out.println(m.getKey()+" = "+m.getValue()));
 		return map.entrySet().stream().sorted(Map.Entry.comparingByValue()).mapToInt(Map.Entry::getValue).toArray();
 	}
-	public static void getPermutations(int digit, int flag){
+	public void getPermutations(int digit, int flag){
 		if(digit == opArr.length-1){
-			caseList.add(Arrays.stream(caseArr).collect(Collectors.joining()));
+			caseList.add(String.join("", caseArr));
 			return;
 		}
 		for (int i = 0; i< opArr.length-1; i++){
@@ -643,30 +633,29 @@ public class ProgrammersLv1Controller {
 			getPermutations(digit+1,flag | 1 << i);
 		}
 	}
-	public static int calc(int num1,int num2, String op){
-		int n1 = Integer.valueOf(num1), n2 = Integer.valueOf(num2);
-		if("*".equals(op)) return n1 * n2;
-		else if("+".equals(op)) return n1 + n2;
-		else if("-".equals(op)) return n1 - n2;
+	public int calc(int num1,int num2, String op){
+        if("*".equals(op)) return num1 * num2;
+		else if("+".equals(op)) return num1 + num2;
+		else if("-".equals(op)) return num1 - num2;
 		else return 0;
 	}
 
-	public static int solution5_v2(int[] intarr){
+	public int solution5_v2(int[] intarr){
 		long totalHappy = Arrays.stream(intarr).filter(a->8<a).count();
 		if(intarr.length == totalHappy*2) return intarr.length-1;
 		if(intarr.length < totalHappy*2) return intarr.length;
 
 		Queue<Boolean> queue = new LinkedList<>();
 		int max = 0;
-		for(int i=0;i<intarr.length;i++){
-			queue.add(8<intarr[i]);
-			long happy = queue.stream().filter(Boolean::booleanValue).count();
-			if (happy*2 == queue.size()) continue;
-			while(!queue.isEmpty() && happy <= queue.size()/2){
-				if(queue.poll()) happy--;
-			}
-			if(max < queue.size()) max = queue.size();
-		}
+        for (int j : intarr) {
+            queue.add(8 < j);
+            long happy = queue.stream().filter(Boolean::booleanValue).count();
+            if (happy * 2 == queue.size()) continue;
+            while (!queue.isEmpty() && happy <= queue.size() / 2) {
+                if (queue.poll()) happy--;
+            }
+            if (max < queue.size()) max = queue.size();
+        }
 		// 뒤집어서 한번 더
 		queue.clear();
 		int reverseMax = 0;
@@ -684,51 +673,50 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 햄버거 만들기
-	public static int solution_making_hamburger_stack(int[] ingredient) {
+	public int solution_making_hamburger_stack(int[] ingredient) {
 		int answer = 0,point = 0;
 		int[] order = {1,2,3,1};
 		Stack<Integer> st = new Stack<>();
-		for (int i = 0;i<ingredient.length;i++){
-			if(ingredient[i]==1 && point != order.length-1) st.push(point=1);
-			else if(ingredient[i]==order[point]) st.push(++point);
-			else{
-				point=0;
-				st.clear();
-			}
+        for (int j : ingredient) {
+            if (j == 1 && point != order.length - 1) st.push(point = 1);
+            else if (j == order[point]) st.push(++point);
+            else {
+                point = 0;
+                st.clear();
+            }
 
-			if(order.length-1 < point){
-				answer++;
-				while(!st.empty() && st.pop() != 1);
-				point = (st.empty())? 0 : st.peek();
-			}
-		}
+            if (order.length - 1 < point) {
+                answer++;
+                while (!st.empty() && st.pop() != 1) ;
+                point = (st.empty()) ? 0 : st.peek();
+            }
+        }
 		return answer;
 	}
 
 	// LV1. 가장 가까운 문자열
-	public static int[] solution_near_string(String s) {
+	public int[] solution_near_string(String s) {
 		return IntStream.range(0,s.length())
 				.map(i->{
 					int position = s.substring(0,i).lastIndexOf(s.charAt(i));
 					if(-1 < position) position = i-position;
 					return position;
-				})
-				.toArray();
+				}).toArray();
 	}
 
 	// LV1. 푸드 파이트 대회
-	public static String solution_food_fight(int[] food) {
+	public String solution_food_fight(int[] food) {
 		StringBuilder sb = new StringBuilder().append(0);
 		IntStream.iterate(food.length-1,i->i-1).limit(food.length-1)
 			.forEach(m->{
-				sb.append(String.valueOf(m).repeat((int)Math.ceil(food[m]/2)));
-				sb.insert(0,String.valueOf(m).repeat((int)Math.ceil(food[m]/2)));
+				sb.append(String.valueOf(m).repeat((int)Math.ceil((double) food[m] /2)));
+				sb.insert(0,String.valueOf(m).repeat((int)Math.ceil((double) food[m] /2)));
 			});
 		return sb.toString();
 	}
 
 	// LV1. 과일 장수
-	public static int solution_fruit_seller(int k, int m, int[] score) {
+	public int solution_fruit_seller(int k, int m, int[] score) {
 		List<Integer> list = Arrays.stream(score).boxed()
 				.sorted(Comparator.reverseOrder())
 				.collect(Collectors.toList());
@@ -739,7 +727,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 명예의 전당
-	public static int[] solution_hall_of_fame(int k, int[] score) {
+	public int[] solution_hall_of_fame(int k, int[] score) {
 		int[] answer = new int[score.length];
 
 		PriorityQueue<Integer> queue = new PriorityQueue<>();
@@ -753,7 +741,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 카드뭉치
-	public static String solution_trump_bundle(String[] cards1, String[] cards2, String[] goal) {
+	public String solution_trump_bundle(String[] cards1, String[] cards2, String[] goal) {
 		Queue<String> queue1 = Arrays.stream(cards1).collect(Collectors.toCollection(LinkedList::new));
 		Queue<String> queue2 = Arrays.stream(cards2).collect(Collectors.toCollection(LinkedList::new));
 
@@ -767,7 +755,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 문자열 나누기
-	public static int solution_split_string(String s) {
+	public int solution_split_string(String s) {
 		int answer = 0;
 		String x = "";
 		int matchCnt = 0;
@@ -791,8 +779,8 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 옹알이(2)
-	public static int solution_babbling(String[] babbling) {
-		List<String> canList = Arrays.asList(new String[]{"aya", "ye", "woo", "ma"});
+	public int solution_babbling(String[] babbling) {
+		String[] canList = new String[]{"aya", "ye", "woo", "ma"};
 		int answer = 0;
 
 		for (String s : babbling){
@@ -801,7 +789,7 @@ public class ProgrammersLv1Controller {
 					if(s.contains(canStr.repeat(2))) continue;
 					s = s.replaceAll(canStr," ");
 				}
-				if("".equals(s.trim())){
+				if(s.trim().isEmpty()){
 					answer++;
 					break;
 				}
@@ -812,7 +800,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 덧칠하기
-	public static int solution_painting(int n, int m, int[] section) {
+	public int solution_painting(int n, int m, int[] section) {
 		List<Integer> list = Arrays.stream(section).boxed().collect(Collectors.toList());
 		int answer = 0;
 		while(!list.isEmpty()){
@@ -823,13 +811,13 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 추억 점수
-	public static int[] solution_memory_score(String[] name, int[] yearning, String[][] photo) {
+	public int[] solution_memory_score(String[] name, int[] yearning, String[][] photo) {
 		int[] answer = new int[photo.length];
 		List<String> nameList = Arrays.asList(name);
 		for (int i=0;i<photo.length;i++){
 			int miss = 0;
 			for(String s : photo[i]){
-				if(nameList.indexOf(s) < 0) continue;
+				if(!nameList.contains(s)) continue;
 				miss += yearning[nameList.indexOf(s)];
 			}
 			answer[i] = miss;
@@ -839,7 +827,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 기사 단원의 무기
-	public static int solution_orders_weapon(int number, int limit, int power) {
+	public int solution_orders_weapon(int number, int limit, int power) {
 		return (int)IntStream.rangeClosed(1,number).mapToLong(i->{
 			long cnt = IntStream.rangeClosed(1,(int) Math.sqrt(i)).filter(a->i%a==0).map(m->m*m==i?1:2).distinct().sum();
 			if(limit < cnt) cnt = power;
@@ -848,8 +836,8 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 둘만의 암호
-	public static String solution_secret_code(String s, String skip, int index) {
-		StringBuffer sb = new StringBuffer();
+	public String solution_secret_code(String s, String skip, int index) {
+		StringBuilder sb = new StringBuilder();
 		for(String str : s.split("")){
 			char c = str.charAt(0);
 			int cnt = 0;
@@ -866,9 +854,9 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 대충만든 자판
-	public static int[] solution_roughly_made_keyboard(String[] keymap, String[] targets) {
+	public int[] solution_roughly_made_keyboard(String[] keymap, String[] targets) {
 		int[] answer = new int[targets.length];
-		String str = Arrays.stream(keymap).collect(Collectors.joining());
+		String str = String.join("", keymap);
 		for(int i=0;i<targets.length;i++){
 			for (int j=0;j<targets[i].length();j++){
 				if(str.indexOf(targets[i].charAt(j)) < 0){
@@ -889,33 +877,24 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 달리기 경주 2023.04.21 완료
-	public static String[] solution_running_race(String[] players, String[] callings) {
-		/*
-		//  효율설 탈락..
-		List<String> playerList = Arrays.stream(players).collect(Collectors.toList());
-		for (int i=0;i<callings.length;i++){
-			int callIdx = playerList.indexOf(callings[i]);
-			if(callIdx == 0) continue;
-			Collections.swap(playerList,callIdx,callIdx-1);
-		}
-		*/
+	public String[] solution_running_race(String[] players, String[] callings) {
 		Map<String,Integer> playerMap = IntStream.range(0,players.length).boxed()
 			.collect(Collectors.toMap(a->players[a], Function.identity()));
 
-		for (int i=0;i<callings.length;i++){
-			int rank = playerMap.get(callings[i]);
-			playerMap.put(players[rank], rank-1);
-			playerMap.put(players[rank-1], rank);
-			String temp = players[rank];
-			players[rank] = players[rank-1];
-			players[rank-1] = temp;
-		}
+        for (String calling : callings) {
+            int rank = playerMap.get(calling);
+            playerMap.put(players[rank], rank - 1);
+            playerMap.put(players[rank - 1], rank);
+            String temp = players[rank];
+            players[rank] = players[rank - 1];
+            players[rank - 1] = temp;
+        }
 
 		return players;
 	}
 
 	// LV1. 바탕화면 정리 2023.04.21 완료
-	public static int[] solution_cleaning_background(String[] wallpaper) {
+	public int[] solution_cleaning_background(String[] wallpaper) {
 		int[] answer = { wallpaper.length, wallpaper[0].length(), 0, 0 };
 
 		for (int i=0;i<wallpaper.length;i++){
@@ -933,7 +912,7 @@ public class ProgrammersLv1Controller {
 	}
 
 	// LV1. 공원 산책 2023.04.21 완료
-	public static int[] solution_walking_park(String[] park, String[] routes) {
+	public int[] solution_walking_park(String[] park, String[] routes) {
 		int[] answer = new int[2];
 		boolean[][] xarr = new boolean[park.length][park[0].length()];
 		for(int i=0;i<park.length;i++){
@@ -949,7 +928,7 @@ public class ProgrammersLv1Controller {
 		for (String s : routes) {
 			String[] go = s.split(" ");
 			int[] back  = {answer[0],answer[1]};
-			int dist = Integer.valueOf(go[1]), cnt = 0;
+			int dist = Integer.parseInt(go[1]), cnt = 0;
 			while(cnt++ < dist){
 				if("N".equals(go[0])) answer[0]--;
 				else if("W".equals(go[0])) answer[1]--;
@@ -967,7 +946,4 @@ public class ProgrammersLv1Controller {
 		}
 		return answer;
 	}
-
-	/******************************************************************************************************/
-
 }
