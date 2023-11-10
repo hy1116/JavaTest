@@ -5,24 +5,30 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ProgrammersLv1 {
 	// Lv.1 신고 결과 받기
 	public int[] solution_RepostResult(String[] id_list, String[] report, int k) {
-		Map<String, Integer> repomap = new HashMap<>(); // 신고 당한 횟수
-		Map<String, List<String>> repomapList = new HashMap<>(); // 신고 기록
-		Arrays.asList(id_list).forEach(id -> {
-			repomap.put(id, 0);
-			repomapList.put(id, new ArrayList<>());
-		});
 
-		Arrays.stream(report).distinct() //중복제거
+		Map<String, List<String>> repomapList = new HashMap<>(); // 신고 기록
+		Arrays.asList(id_list).forEach(id -> repomapList.put(id, new ArrayList<>()));
+
+		Map<String, Integer> repomap = new HashMap<>(); // 신고 당한 횟수
+		Arrays.stream(report).distinct() // 중복 제거
 				.forEach(r -> {
 					String[] repo = r.split(" ");
-					repomap.put(repo[1], repomap.get(repo[1]) + 1); // 신고당한사람 카운트
-					repomapList.get(repo[0]).add(repo[1]); // 신고기록 추가
+					repomap.put(repo[1], repomap.getOrDefault(repo[1],0) + 1); // 신고 당한 사람 카운트
+					repomapList.get(repo[0]).add(repo[1]); // 신고 기록 추가
 				});
 		return IntStream.range(0, id_list.length).boxed().mapToInt(i -> (int) repomapList.get(id_list[i]).stream().filter(a -> repomap.get(a) >= k).count()).toArray();
+
+		/*
+		List<String> stop = Arrays.stream(id_list).filter(b-> k <= Arrays.stream(report).distinct().map(a->a.split(" ")[1]).filter(r -> r.equals(b)).count()).collect(Collectors.toList());
+		List<String> repo = Arrays.stream(report).distinct().filter(a->stop.contains(a.split(" ")[1])).map(a->a.split(" ")[0]).collect(Collectors.toList());
+
+		return Arrays.stream(id_list).mapToInt(a->(int)repo.stream().filter(a::equals).count()).toArray();
+		*/
 	}
 
 	// LV.1 키패드 누르기
