@@ -165,7 +165,7 @@ public class ProgrammersLv0 {
 		while(answer[i][j]==0){
 			if(n < ++mode) mode = 0;
 			if(mode == 2) n--;
-			while((0 <= i & i < n) | (0 <= j & j < n)){
+			while((0 <= i & i < n-1) &&(0 <= j & j < n-1)){
 				System.out.println("i :"+i+" j :"+j);
 				if(mode==0) i++;
 				else if(mode==1) j++;
