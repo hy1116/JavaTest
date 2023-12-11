@@ -3,9 +3,6 @@ package codingTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ProgrammersLv0Test {
@@ -92,6 +89,28 @@ public class ProgrammersLv0Test {
 	@Test
 	public void solution_permutation2(){
 		assertThat(pc.solution_permutation2(5,555)).isEqualTo(new int[]{5, 50, 55, 500, 505, 550, 555});
+	}
+	@Test
+	public void solution_two_num_add(){
+		assertThat(pc.solution_two_num_add("18446744073709551615","287346502836570928366")).isEqualTo("305793246910280479981");
+	}
+	@Test
+	public void solution_dice3(){
+		assertThat(pc.solution_dice3(2,2,2,2)).isEqualTo(2222);
+		assertThat(pc.solution_dice3(4,4,4,4)).isEqualTo(4444);
+		assertThat(pc.solution_dice3(1,2,3,4)).isEqualTo(1);
+		assertThat(pc.solution_dice3(6,5,3,4)).isEqualTo(3);
+		assertThat(pc.solution_dice3(6,2,3,4)).isEqualTo(2);
+		assertThat(pc.solution_dice3(1,1,4,1)).isEqualTo(196);
+		assertThat(pc.solution_dice3(3,6,3,6)).isEqualTo(27);
+	}
+	@Test
+	public void solution_pow_two(){
+		assertThat(pc.solution_pow_two(new int[]{1})).isEqualTo(new int[]{1});
+		assertThat(pc.solution_pow_two(new int[]{1,2})).isEqualTo(new int[]{1,2});
+		assertThat(pc.solution_pow_two(new int[]{1,2,3,4})).isEqualTo(new int[]{1,2,3,4});
+		assertThat(pc.solution_pow_two(new int[]{1,2,3,4,5,6})).isEqualTo(new int[]{1,2,3,4,5,6,0,0});
+		assertThat(pc.solution_pow_two(new int[]{1,2,3,4,5,6,7,8,9,10})).isEqualTo(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 0, 0, 0, 0});
 	}
 
 	@Test

@@ -14,6 +14,7 @@ public class Stardream {
         hash.put("CODE","cyflElDMOlAixB2PH05QJg==");
         hash.put("NAME","스타드림 룰렛");
         somap.add(hash);
+
         HashMap<String,String> hash2 = new HashMap<>();
         hash2.put("CODE","wOyo8IyfDiiy+DOE6vLRHg==");
         hash2.put("NAME","무정산 쿠폰");

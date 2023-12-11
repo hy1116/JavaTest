@@ -1,15 +1,21 @@
 package codingTest;
 
-import com.google.common.primitives.Chars;
-import com.google.common.primitives.Ints;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.function.IntPredicate;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class ProgrammersLv0 {
+	Logger log = LoggerFactory.getLogger("ProgrammersLv0");
+
 	public int[] solution_emergency(int[] emergency) {
 		List<Integer> list = Arrays.stream(emergency).boxed().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 		return Arrays.stream(emergency).map(a->list.indexOf(a)+1).toArray();
@@ -51,10 +57,7 @@ public class ProgrammersLv0 {
 	}
 	// 배열의 원소만큼 추가하기
 	public int[] solution_addElement(int[] arr) {
-		Arrays.stream(arr).mapToObj(a->String.valueOf(a).repeat(a)).collect(Collectors.joining()).split("");
-		System.out.println(Arrays.stream(arr).mapToObj(a->String.valueOf(a).repeat(a)).collect(Collectors.joining()));
-
-		return new int[]{};
+		return Arrays.stream(arr).mapToObj(a->String.valueOf(a).repeat(a)).mapToInt(Integer::valueOf).toArray();
 	}
 
 	public int solution_dice2(int a,int b,int c) {
@@ -153,33 +156,163 @@ public class ProgrammersLv0 {
 		return answer.length==0?new int[]{-1}:answer;
 	}
 
-	public void solution() {
-		int n =4;
-
-		int[][] answer = new int[n][n];
-		for (int[] arr: answer){
-			System.out.println(Arrays.toString(arr));
+	public String solution_two_num_add(String a, String b) {
+		StringBuilder answer = new StringBuilder();
+		if(a.length() < b.length()){
+			a = "0".repeat(b.length()-a.length()) + a;
+		} else if(b.length() < a.length()){
+			b = "0".repeat(a.length()-b.length()) + b;
 		}
 
-		int mode = -1, i=0, j=0, idx = 0;
-		while(answer[i][j]==0){
-			if(n < ++mode) mode = 0;
-			if(mode == 2) n--;
-			while((0 <= i & i < n-1) &&(0 <= j & j < n-1)){
-				System.out.println("i :"+i+" j :"+j);
-				if(mode==0) i++;
-				else if(mode==1) j++;
-				else if(mode==2) i--;
-				else j--;
+		int rnd = 0;
+		String[] aarr = a.split("");
+		String[] barr = b.split("");
+		for(int i = a.length()-1; 0<=i; i--){
+			int num = Integer.parseInt(aarr[i]) + Integer.parseInt(barr[i]);
+			num += rnd;
+			rnd =  num /10;
+			answer.insert(0, num % 10);
+		}
+		if(0<rnd) answer.insert(0, rnd);
+		return answer.toString();
+	}
 
-				answer[i][j] = ++idx;
+	public void solution_checkMine() {
+		// Question
+		int[][] arr = new int[3][3];
+		int[] pos = {1,1};
+		for(int[] a : arr) System.out.println(Arrays.toString(a));
+
+		for (int i=0;i<arr.length;i++){
+			for (int j=0;j<arr[i].length;j++){
+				if (arr[i][j] == 1) checkMine(arr,new int[]{i,j});
+			}
+		}
+		for(int[] a : arr) System.out.println(Arrays.toString(a));
+
+		// Answer
+		int answer = Arrays.stream(arr).mapToInt(r-> Math.toIntExact(Arrays.stream(r).filter(a -> a == 0).count())).sum();
+		System.out.println(answer);
+	}
+	public void checkMine(int[][] arr,int[] pos){
+		// Check
+		for(int y = -1; y <= 1; y++){
+			for(int x = 1; -1 <= x; x--){
+				try{
+					if(arr[pos[0]+x][pos[1]+y] == 0) arr[pos[0]+x][pos[1]+y] = -1;
+				} catch(Exception e){
+					continue;
+				}
+				log.info("[x:{}, y:{}]",x,y);
 			}
 		}
 
-		for (int[] arr: answer){
-			System.out.println(Arrays.toString(arr));
-		}
 	}
 
+	public int[][] solution_square(int[][] arr){
+		if(arr.length==arr[0].length) return arr;
+		int[][] answer = new int[Math.max(arr.length,arr[0].length)][Math.max(arr.length,arr[0].length)];
+
+		for(int i=0;i<answer.length;i++){
+			for(int j=0;j<answer.length;j++){
+				answer[i][j] = arr[i][j];
+			}
+		}
+		for(int[] a : arr) System.out.println(Arrays.toString(a));
+		return answer;
+	}
+
+	public String[] solution_enlargement(String[] picture, int k) {
+		List<String> picList = new ArrayList<>();
+		for(String pic : picture){
+			String str = Arrays.stream(pic.split("")).map(r->r.repeat(k)).collect(Collectors.joining());
+			for(int i=0;i<k;i++){
+				picList.add(str);
+			}
+		}
+		return picList.toArray(String[]::new);
+	}
+
+	public int solution_rank_attendance(int[] rank, boolean[]
+			attendance) {
+		return IntStream.range(0,rank.length).boxed()
+				.filter(f->attendance[f])
+				.sorted(Comparator.comparing(s->rank[s]))
+				.limit(3)
+				.reduce((l,r)->l*100+r)
+				.orElse(0);
+	}
+
+	public int solution_spell(String[] spell, String[] dic) {
+		int answer = 0;
+
+
+
+		return answer;
+	}
+
+	/* 주사위 게임3 */
+	public int solution_dice3(int a,int b,int c,int d) {
+		Map<Integer,Integer> map = new HashMap<>();
+		List.of(a,b,c,d).forEach(i->{
+			map.put(i,map.getOrDefault(i,0)+1);
+		});
+
+		if(map.size()==1) return a*1111;
+		else if(map.size()==2){
+			if(map.containsValue(2)){ // (p + q) × |p - q|
+				int[] result = map.keySet().stream().mapToInt(Integer::intValue).toArray();
+				return (result[0] + result[1]) * Math.abs(result[0] - result[1]);
+			} else{ // (10 × p + q)2
+				int[] result = map.entrySet().stream().sorted(Map.Entry.comparingByValue()).mapToInt(Map.Entry::getKey).toArray();
+				return (int) Math.pow(10 * result[1] + result[0],2);
+			}
+		}
+		else if(map.size()==3) {
+			int[] result = map.entrySet().stream().filter(r->r.getValue()==1).mapToInt(Map.Entry::getKey).toArray();
+			return result[0]*result[1];
+		}
+		else return Math.min(Math.min(a,b), Math.min(c,d));
+	}
+
+	public int[] solution_pow_two(int[] arr) {
+		return Arrays.copyOf(arr,(int)Math.pow(2,Math.ceil(Math.log(arr.length) / Math.log(2))));
+	}
+
+	/* 나선형 */
+	public int[][] solution_spiral(int n) {
+		int[][] arr = new int[n][n];
+
+		int mode = 0, end = n*n;
+		int i=0,j=0,k=1;
+		while(k <= end){
+			arr[i][j] = k;
+
+ 			if(((mode%4==0&&n-1<=j)
+					||(mode%4==1&&n-1<=i)
+					||(mode%4==2&&j<=arr.length-n)
+					||(mode%4==3&&i<=arr.length-n))
+					&& (++mode%4==3)){
+				n--;
+				continue;
+			}
+
+			if(mode%4==0) j++;
+			if(mode%4==1) i++;
+			if(mode%4==2) j--;
+			if(mode%4==3) i--;
+			k++;
+		}
+		return arr;
+	}
+
+	public void solution(){
+		int[][] score = {{80,90},{75,60}};
+		List<Integer> list = Arrays.stream(score)
+				.map((r-> r[0]+r[1]))
+				.sorted(Comparator.reverseOrder())
+				.collect(Collectors.toList());
+		int[] answer = Arrays.stream(score).mapToInt(m->list.indexOf(m)+1).toArray();
+	}
 
 }
