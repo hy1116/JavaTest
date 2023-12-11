@@ -1,5 +1,6 @@
 package codingTest;
 
+import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -306,13 +307,133 @@ public class ProgrammersLv0 {
 		return arr;
 	}
 
-	public void solution(){
+	public int[] solution_score(){
 		int[][] score = {{80,90},{75,60}};
 		List<Integer> list = Arrays.stream(score)
 				.map((r-> r[0]+r[1]))
 				.sorted(Comparator.reverseOrder())
 				.collect(Collectors.toList());
-		int[] answer = Arrays.stream(score).mapToInt(m->list.indexOf(m)+1).toArray();
+		return Arrays.stream(score).mapToInt(m->list.indexOf(m)+1).toArray();
 	}
 
+
+	public int solution_nextNumber(int[] common){
+		int[] plusArr = IntStream.range(0,common.length-1).map(r->common[r+1]-common[r]).distinct().toArray();
+		if(plusArr.length==1) return common[common.length-1] + plusArr[0];
+		double[] multiArr = IntStream.range(0,common.length-1).mapToDouble(r->common[r+1]/common[r]).distinct().toArray();
+		if(multiArr.length==1) return common[common.length-1] * (int)multiArr[0];
+		return 0;
+	}
+
+	public int[] solution_continues(int num, int total) {
+		int start = (total/num)-(num/2)+(num%2==0?1:0);
+		return IntStream.range(0,num).map(r->start+r).toArray();
+	}
+
+	public int solution_overlapLine(int[][] lines) {
+		Map<Integer,Integer> map =  new HashMap<>();
+		Arrays.stream(lines).forEach(line->{
+			IntStream.range(line[0],line[1]).forEach(i->{
+				map.put(i,map.getOrDefault(i,0)+1);
+			});
+		});
+		return (int) map.entrySet().stream().filter(p->1<p.getValue()).count();
+	}
+
+	public String solution_debug(String[] storage, int[] num) {
+		int num_item = 0;
+		String[] clean_storage = new String[storage.length];
+		int[] clean_num = new int[num.length];
+
+		for(int i=0; i<storage.length; i++){
+			int clean_idx = -1;
+			for(int j=0; j<num_item; j++){
+				if(storage[i].equals(clean_storage[j])){
+					clean_idx = j;
+					break;
+				}
+			}
+			if(clean_idx == -1){
+				clean_storage[num_item] = storage[i];
+				clean_num[num_item] = num[i];
+				num_item += 1;
+			}
+			else{
+				clean_num[clean_idx] += num[i];
+			}
+		}
+
+		// 아래 코드에는 틀린 부분이 없습니다.
+
+		int num_max = -1;
+		String answer = "";
+		for(int i=0; i<num_item; i++){
+			if(clean_num[i] > num_max){
+				num_max = clean_num[i];
+				answer = clean_storage[i];
+			}
+		}
+		return answer;
+	}
+	/*
+	1. 정수를 저장할 변수 n을 만들고 board의 길이를 저장합니다.
+	2. 같은 색으로 색칠된 칸의 개수를 저장할 변수 count를 만들고 0을 저장합니다.
+	3. h와 w의 변화량을 저장할 정수 리스트 dh, dw를 만들고 각각 [0, 1, -1, 0], [1, 0, 0, -1]을 저장합니다.
+	4. 반복문을 이용해 i 값을 0부터 3까지 1 씩 증가시키며 아래 작업을 반복합니다.
+		4-1. 체크할 칸의 h, w 좌표를 나타내는 변수 h_check, w_check를 만들고 각각 h + dh[i], w + dw[i]를 저장합니다.
+		4-2. h_check가 0 이상 n 미만이고 w_check가 0 이상 n 미만이라면 다음을 수행합니다.
+			4-2-a. board[h][w]와 board[h_check][w_check]의 값이 동일하다면 count의 값을 1 증가시킵니다.
+	5. count의 값을 return합니다.
+	*/
+	public int solution_nextBlock(String[][] board, int h, int w) {
+		int n = board.length;
+		int cnt = 0;
+		int[] dh = {0,1,-1,0};
+		int[] dw = {1,0,0,-1};
+
+		for(int i = 0;i<dh.length;i++){
+			int h_check = h + dh[i];
+			int w_check = w + dw[i];
+			if(0<=h_check&h_check<n & 0<=w_check&w_check<n){
+				if(board[h][w].equals(board[h_check][w_check])) cnt++;
+			}
+		}
+		return cnt;
+	}
+	enum data_name {code, date, maximum, remain};
+	public int[][] solution_dataAnalytics(int[][] data, String ext, int val_ext, String sort_by) {
+		return Arrays.stream(data)
+				.filter(f->f[data_name.valueOf(ext).ordinal()] < val_ext)
+				.sorted(Comparator.comparing(c->c[data_name.valueOf(sort_by).ordinal()]))
+				.toArray(int[][]::new);
+	}
+	/*
+	bandage [시전 시간, 초당 회복량, 추가 회복량]
+	attacks [공격 시간, 피해량]
+	*/
+	public int solution_bandage(int[] bandage, int health, int[][] attacks) {
+		int cnt = 0;
+		int time = 0;
+		int curr_health = health;
+		for (int i=0;i<=attacks[attacks.length-1][0];i++){
+			if(attacks[cnt][0]==i){
+				time = 0;
+				curr_health -= attacks[cnt++][1];
+			} else {
+				time++;
+				curr_health+=bandage[1];
+				if(bandage[0]<=time){
+					curr_health+=bandage[2];
+					time = 0;
+				}
+			}
+
+			if(health < curr_health) curr_health = health;
+			else if(curr_health <= 0) return -1;
+		}
+
+		return curr_health;
+	}
+
+	public void solution(){	}
 }
