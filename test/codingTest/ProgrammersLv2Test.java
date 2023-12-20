@@ -327,4 +327,29 @@ public class ProgrammersLv2Test {
 		assertThat(pc.solution_mini_subString("333333333333333333","333333333333333333")).isEqualTo(0);
 	}
 
+	@Test
+	public void solution_longRun() {
+		assertThat(pc.solution_longRun(3)).isEqualTo(3);
+		assertThat(pc.solution_longRun(4)).isEqualTo(5);
+		assertThat(pc.solution_longRun(5)).isEqualTo(8);
+		assertThat(pc.solution_longRun(6)).isEqualTo(13);
+		assertThat(pc.solution_longRun(7)).isEqualTo(21);
+		assertThat(pc.solution_longRun(8)).isEqualTo(34);
+	}
+
+	@Test
+	public void solution_continuesSum() {
+		assertThat(pc.solution_continuesSum(new int[]{7,9,1,1,4})).isEqualTo(18);
+	}
+
+	@Test
+	public void solution_rotateBracket() {
+		assertThat(pc.solution_rotateBracket("[](){}")).isEqualTo(3);
+	}
+
+	@Test
+	public void solution_oil() {
+		assertThat(pc.solution_oil(new int[][]{{0, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 1, 1, 0, 0}, {1, 1, 0, 0, 0, 1, 1, 0}, {1, 1, 1, 0, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0, 1, 1}})).isEqualTo(9);
+		assertThat(pc.solution_oil(new int[][]{{1, 0, 1, 0, 1, 1}, {1, 0, 1, 0, 0, 0}, {1, 0, 1, 0, 0, 1}, {1, 0, 0, 1, 0, 0}, {1, 0, 0, 1, 0, 1}, {1, 0, 0, 0, 0, 0}, {1, 1, 1, 1, 1, 1}})).isEqualTo(9);
+	}
 }

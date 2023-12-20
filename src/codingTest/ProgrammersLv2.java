@@ -1,5 +1,6 @@
 package codingTest;
 
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 public class ProgrammersLv2 {
 	Logger log = LoggerFactory.getLogger("ProgrammersLv2Controller");
@@ -1010,4 +1013,183 @@ public class ProgrammersLv2 {
 				.filter(r->r<=Long.valueOf(p))
 				.count();
 	}
+
+	// LV2. 멀리 뛰기
+	List<Integer> list = new ArrayList<>(List.of(1,2));
+	public long solution_longRun(int n) {
+//		return LongStream.range((long)Math.pow(2,n-3)%1234567,(long)Math.pow(2,n-1)%1234567)
+//				.filter(i->!Long.toBinaryString(i).contains("00")).count()%1234567;
+		for(int i = list.size(); i < n;i++){
+			list.add(list.get(i-2)+list.get(i-1));
+			System.out.println(list);
+		}
+		return list.get(n-1);
+	}
+
+/*
+	public static List<List<Boolean>> generateBinaryPermutations(int r) {
+		List<List<Boolean>> result = new ArrayList<>();
+		generateBinaryPermutationsHelper(r, new ArrayList<>(), result);
+		return result;
+	}
+
+	private static void generateBinaryPermutationsHelper(int r, List<Boolean> currentPermutation, List<List<Boolean>> result) {
+		if (r == 0) {
+			result.add(new ArrayList<>(currentPermutation));
+			return;
+		}
+
+		for (int i = 0; i < 2; i++) {
+			currentPermutation.add(i==1);
+			generateBinaryPermutationsHelper(r - 1, currentPermutation, result);
+			currentPermutation.remove(currentPermutation.size() - 1);
+		}
+	}
+*/
+	// LV2. 연속 부분 수열 합의 개수
+	public int solution_continuesSum(int[] elements) {
+		Set<Integer> set = new HashSet<>();
+		for (int i=1;i<=elements.length;i++){
+			for (int j=0;j<elements.length*2-i;j++){
+				int sum=0;
+				for(int k=j;k<j+i;k++){
+					sum += elements[k%elements.length];
+				}
+				set.add(sum);
+			}
+		}
+		return set.size();
+	}
+
+	// LV2. 괄호 회전
+	public int solution_rotateBracket(String s) {
+		int answer = -1;
+
+		Map<String,String> map = Map.of("}","{","]","[",")","(");
+		Queue<String> que = Arrays.stream(s.split("")).collect(Collectors.toCollection(LinkedList<String>::new));
+		while(answer++ <= s.length()){
+			Stack<String> st = new Stack<>();
+			Queue<String> cpq = new LinkedList<>();
+			cpq.addAll(que);
+			cpq.add(cpq.poll());
+			while(!cpq.isEmpty()){
+				String str = cpq.poll();
+				if(!st.isEmpty()&&st.peek().equals(map.get(str))) st.pop();
+				else st.push(str);
+			}
+			System.out.println(st);
+			if(st.isEmpty()) return answer;
+		}
+
+		return answer-1;
+	}
+
+	// LV2. 석유 시추
+	/*
+	public int solution_oil(int[][] land) {
+		int answer = 0;
+		int[][] near = {{0,1},{1,0},{-1,0},{0,-1}};
+		for (int x=0;x<land[0].length;x++){
+			// 시추 위치 석유 확인
+			int[][] newLand = new int[land.length][land[0].length];
+			for(int i=0;i<land.length;i++) newLand[i] = Arrays.copyOf(land[i],land[i].length);
+
+			List<List<int[]>> oilList = new ArrayList<>();
+			oilList.add(new ArrayList<>(land.length));
+			for(int y = 0; y < newLand.length; y++){
+				if(newLand[y][x]==1){
+					oilList.get(0).add(new int[]{y,x});
+					newLand[y][x] = 0;
+				}
+			}
+
+			int idx = -1;
+			while(!oilList.get(++idx).isEmpty()){
+				List<int[]> nextList = new ArrayList<>();
+				for (int[] opos : oilList.get(idx)){
+					// 근처 오일 확인 및 리스트 추가
+					for (int[] nPos : near){
+						int w = opos[0]+nPos[0];
+						int h = opos[1]+nPos[1];
+						if(w<0|h<0|newLand.length<=w|newLand[0].length<=h) continue;
+						if(newLand[w][h]==1){
+							nextList.add(new int[]{w,h});
+							newLand[w][h]=0;
+						}
+					}
+				}
+				oilList.add(nextList);
+			}
+
+			answer = Math.max(answer,oilList.stream().mapToInt(List::size).sum());
+		}
+
+		return answer;
+	}
+	*/
+
+	// LV2. 석유 시추 (ver.효율성 개선)
+	public int solution_oil(int[][] land) {
+		List<Stack<Integer>> graph = new ArrayList<>();
+		for (int x = 0; x < land[0].length; x++){
+			graph.add(new Stack<>());
+			for (int y = 0; y < land.length; y++){
+				if(land[y][x]==1) {
+					graph.get(x).add(y);
+				}
+			}
+		}
+		System.out.println("------------------------");
+		graph.forEach(System.out::println);
+		return IntStream.range(0,land.length).map(i->bfs(graph,i)).max().getAsInt();
+	}
+	public int bfs(List<Stack<Integer>> graph, int pos){
+		// 다음 계산 시 값 유지를 위해 복사 된 그래프 사용
+		List<Stack<Integer>> cp_graph = graph.stream()
+				.map(a->a.stream().collect(Collectors.toCollection(Stack<Integer>::new)))
+				.collect(Collectors.toList());
+
+		int answer = 0;
+		int[][] near = {{0,1},{1,0},{-1,0},{0,-1}};
+		Queue<int[]> que = new LinkedList<>();
+		while(!cp_graph.get(pos).isEmpty()){
+			que.add(new int[]{pos,cp_graph.get(pos).pop()});
+			answer++;
+		}
+		que.forEach(a-> System.out.println(Arrays.toString(a)));
+
+		while(!que.isEmpty()){
+			int[] oPos = que.poll();
+			System.out.println("poll : ");
+			for (int[] nPos : near){
+				int w = oPos[0]+nPos[0];
+				int h = oPos[1]+nPos[1];
+				if(w<0|h<0|graph.size()<=w|graph.get(0).size()<=h) continue;
+				if(cp_graph.get(w).contains(h)){
+					System.out.println("[x : "+w+" y : "+h+"]");
+					que.add(new int[]{w,h});
+					cp_graph.get(w).removeElement(h);
+					answer++;
+				}
+			}
+		}
+		System.out.println("answer:"+answer);
+		return answer;
+	}
+/*
+	public int getSize(List<Stack<Integer>> graph, int pos){
+		List<Stack<Integer>> cp_graph = graph.stream()
+				.map(a->a.stream().collect(Collectors.toCollection(Stack<Integer>::new)))
+				.collect(Collectors.toList());
+
+		return graph.get(pos).stream().mapToInt(a-> bfs(cp_graph,a,0)).sum();
+	}
+	public int bfs(List<Stack<Integer>> graph, int pos, int sum){
+		while(!graph.get(pos).isEmpty()){
+			return bfs(graph,graph.get(pos).pop(),++sum);
+		}
+		return sum;
+	}
+
+ */
 }
