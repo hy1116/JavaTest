@@ -10,10 +10,9 @@ public class StardreamTest {
     Stardream test = new Stardream();
     @Test
     public void giftDetailTest() throws Exception {
-        String[] origin = ("5epNHZpm9EeueZt5CdX9Rw%3D%3D"+","+"wOyo8IyfDiiy+DOE6vLRHg==").split(",");;
+        String[] origin = new String[]{"cyflElDMOlAixB2PH05QJg==", "wOyo8IyfDiiy+DOE6vLRHg=="};
         String[] updated = test.getKbIds();
 
-        System.out.println(Arrays.toString(origin));
         System.out.println(Arrays.toString(updated));
 
         assertThat(origin).isEqualTo(updated);

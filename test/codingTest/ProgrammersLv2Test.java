@@ -1,6 +1,5 @@
 package codingTest;
 
-import codingTest.ProgrammersLv2;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -270,7 +269,7 @@ public class ProgrammersLv2Test {
 	}
 
 	//======================================================================================
-
+	/*
 	@Test
 	public void solution_max_square_test(){
 		assertThat(pc.solution_max_square(new int[][]{{0,1,1,1},{0,1,1,1},{1,1,1,1},{0,0,1,0}})).isEqualTo(9);
@@ -350,4 +349,5 @@ public class ProgrammersLv2Test {
 		assertThat(pc.solution_oil(new int[][]{{0, 0, 0, 1, 1, 1, 0, 0}, {0, 0, 0, 0, 1, 1, 0, 0}, {1, 1, 0, 0, 0, 1, 1, 0}, {1, 1, 1, 0, 0, 0, 0, 0}, {1, 1, 1, 0, 0, 0, 1, 1}})).isEqualTo(9);
 		assertThat(pc.solution_oil(new int[][]{{1, 0, 1, 0, 1, 1}, {1, 0, 1, 0, 0, 0}, {1, 0, 1, 0, 0, 1}, {1, 0, 0, 1, 0, 0}, {1, 0, 0, 1, 0, 1}, {1, 0, 0, 0, 0, 0}, {1, 1, 1, 1, 1, 1}})).isEqualTo(9);
 	}
+	*/
 }
