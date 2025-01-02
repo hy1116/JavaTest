@@ -10,7 +10,7 @@ public class StardreamTest {
     Stardream test = new Stardream();
     @Test
     public void giftDetailTest() throws Exception {
-        String[] origin = ("cyflElDMOlAixB2PH05QJg=="+","+"wOyo8IyfDiiy+DOE6vLRHg==").split(",");;
+        String[] origin = ("5epNHZpm9EeueZt5CdX9Rw%3D%3D"+","+"wOyo8IyfDiiy+DOE6vLRHg==").split(",");;
         String[] updated = test.getKbIds();
 
         System.out.println(Arrays.toString(origin));

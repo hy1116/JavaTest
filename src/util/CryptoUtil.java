@@ -5,6 +5,8 @@ import lib.KISA_SEED_CBC;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
 public class CryptoUtil {
@@ -61,5 +63,12 @@ public class CryptoUtil {
         byte[] strBytes = Base64.getDecoder().decode(str.getBytes());
         byte[] enc = KISA_SEED_CBC.SEED_CBC_Decrypt(key.getBytes(), IV.getBytes(), strBytes, 0, strBytes.length);
         return new String(enc, "UTF-8");
+    }
+
+    public static int checkAppNo(){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("ddHHmmss");
+        String now = LocalDateTime.now().format(df);
+        String code = "99999999";
+        return Integer.parseInt(code) - Integer.parseInt(now);
     }
 }

@@ -714,10 +714,10 @@ public class ProgrammersLv1 {
 	public String solution_food_fight(int[] food) {
 		StringBuilder sb = new StringBuilder().append(0);
 		IntStream.iterate(food.length-1,i->i-1).limit(food.length-1)
-			.forEach(m->{
-				sb.append(String.valueOf(m).repeat((int)Math.ceil((double) food[m] /2)));
-				sb.insert(0,String.valueOf(m).repeat((int)Math.ceil((double) food[m] /2)));
-			});
+				.forEach(m->{
+					sb.append(String.valueOf(m).repeat((int)Math.ceil(food[m]/2)));
+					sb.insert(0,String.valueOf(m).repeat((int)Math.ceil(food[m]/2)));
+				});
 		return sb.toString();
 	}
 

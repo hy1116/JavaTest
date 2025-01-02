@@ -235,10 +235,7 @@ public class ProgrammersLv2Test {
 	public void solution_h_index_test(){
 		assertThat(pc.solution_h_index(new int[]{3, 0, 6, 1, 5})).isEqualTo(3);
 		assertThat(pc.solution_h_index(new int[]{7, 7, 7, 7, 3})).isEqualTo(4);
-		assertThat(pc.solution_h_index(new int[]{2, 0, 4, 12, 10})).isEqualTo(2);
 	}
-
-	//======================================================================================
 
 	@Test
 	public void solution_fatigue(){
@@ -248,6 +245,31 @@ public class ProgrammersLv2Test {
 		assertThat(pc.solution_fatigue(70,new int[][]{{10,10},{10,10},{20,20},{30,30}})).isEqualTo(4);
 		assertThat(pc.solution_fatigue(80,new int[][]{{100,10},{100,10},{100,20},{100,30}})).isEqualTo(0);
 	}
+
+	@Test
+	public void solution_choice_tangerine_test(){
+		assertThat(pc.solution_choice_tangerine(2,new int[]{2,2,4,4,6,6})).isEqualTo(1);
+		assertThat(pc.solution_choice_tangerine(6,new int[]{1, 3, 2, 5, 4, 5, 2, 3})).isEqualTo(3);
+	}
+
+	@Test
+	public void solution_continuesSum() {
+		assertThat(pc.solution_continuesSum(new int[]{7,9,1,1,4})).isEqualTo(18);
+	}
+
+	@Test
+	public void solution_magical_elevator_test(){
+		assertThat(pc.solution_magical_elevator(16)).isEqualTo(6);
+		assertThat(pc.solution_magical_elevator(2554)).isEqualTo(16);
+		assertThat(pc.solution_magical_elevator(666)).isEqualTo(10);
+		assertThat(pc.solution_magical_elevator(100000000)).isEqualTo(1);
+		assertThat(pc.solution_magical_elevator(100000001)).isEqualTo(2);
+		assertThat(pc.solution_magical_elevator(155)).isEqualTo(11);
+		assertThat(pc.solution_magical_elevator(154)).isEqualTo(10);
+		assertThat(pc.solution_magical_elevator(5)).isEqualTo(5);
+	}
+
+	//======================================================================================
 
 	@Test
 	public void solution_max_square_test(){
@@ -287,12 +309,6 @@ public class ProgrammersLv2Test {
 	}
 
 	@Test
-	public void solution_choice_tangerine_test(){
-		assertThat(pc.solution_choice_tangerine(2,new int[]{2,2,4,4,6,6})).isEqualTo(1);
-		assertThat(pc.solution_choice_tangerine(6,new int[]{1, 3, 2, 5, 4, 5, 2, 3})).isEqualTo(3);
-	}
-
-	@Test
 	public void solution_drawing_comma_test(){
 		assertThat(pc.solution_drawing_comma(1,5)).isEqualTo(26);
 		assertThat(pc.solution_drawing_comma(2,4)).isEqualTo(6);
@@ -300,19 +316,6 @@ public class ProgrammersLv2Test {
 		assertThat(pc.solution_drawing_comma(3,5)).isEqualTo(4);
 		assertThat(pc.solution_drawing_comma(500,1000)).isEqualTo(6);
 	}
-
-	@Test
-	public void solution_magical_elevator_test(){
-		assertThat(pc.solution_magical_elevator(16)).isEqualTo(6);
-		assertThat(pc.solution_magical_elevator(2554)).isEqualTo(16);
-		assertThat(pc.solution_magical_elevator(666)).isEqualTo(10);
-		assertThat(pc.solution_magical_elevator(100000000)).isEqualTo(1);
-		assertThat(pc.solution_magical_elevator(100000001)).isEqualTo(2);
-		assertThat(pc.solution_magical_elevator(155)).isEqualTo(11);
-		assertThat(pc.solution_magical_elevator(154)).isEqualTo(10);
-		assertThat(pc.solution_magical_elevator(5)).isEqualTo(5);
-	}
-
 
 	@Test
 	public void skill3_test(){
@@ -335,11 +338,6 @@ public class ProgrammersLv2Test {
 		assertThat(pc.solution_longRun(6)).isEqualTo(13);
 		assertThat(pc.solution_longRun(7)).isEqualTo(21);
 		assertThat(pc.solution_longRun(8)).isEqualTo(34);
-	}
-
-	@Test
-	public void solution_continuesSum() {
-		assertThat(pc.solution_continuesSum(new int[]{7,9,1,1,4})).isEqualTo(18);
 	}
 
 	@Test

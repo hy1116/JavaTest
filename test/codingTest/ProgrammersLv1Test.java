@@ -2,7 +2,6 @@ package codingTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import codingTest.ProgrammersLv1;
 import org.junit.jupiter.api.Test;
 
 public class ProgrammersLv1Test {

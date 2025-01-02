@@ -36,4 +36,9 @@ class CryptoUtilTest {
 
         assertEquals(encStr,"lMrXpdLIZ8pJxq7+BTptDg==");
     }
+
+    @Test
+    public void checkAppNo_test() {
+        System.out.println(CryptoUtil.checkAppNo());
+    }
 }
