@@ -15,7 +15,7 @@ public class ProgrammersLv0Test {
 
 	@Test
 	public void solution_maxInfo() {
-		assertThat(pc.solution_maxInfo(new int[]{3,1,8,4,3})).isEqualTo(new int[]{8,1});
+		assertThat(pc.solution_maxInfo(new int[]{3,1,8,4,3})).isEqualTo(new int[]{8,2});
 	}
 
 	@Test
@@ -35,9 +35,9 @@ public class ProgrammersLv0Test {
 
 	@Test
 	public void solution_dice2(){
-		assertThat(pc.solution_dice2(	2, 6, 1)).isEqualTo(9);
-		assertThat(pc.solution_dice2(5,3,3)).isEqualTo(	473);
-		assertThat(pc.solution_dice2(3,3,3)).isEqualTo(6);
+		assertThat(pc.solution_dice2(2, 6, 1)).isEqualTo(9);
+		assertThat(pc.solution_dice2(5,3,3)).isEqualTo(473);
+		assertThat(pc.solution_dice2(4,4,4)).isEqualTo(110592);
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class ProgrammersLv0Test {
 
 	@Test
 	public void solution_query2(){
-		assertThat(pc.solution_query2(new int[]{0, 1, 2, 3, 4},new int[][]{{0, 3}, {1, 2}, {1, 4}})).isEqualTo(new int[]{3, 4, 1, 0, 2});
+		assertThat(pc.solution_query2(new int[]{0, 1, 2, 4, 3},new int[][]{{0, 4, 2}, {0, 3, 2}, {0, 2, 2}})).isEqualTo(new int[]{3, 4, -1});
 	}
 
 	@Test
@@ -62,12 +62,13 @@ public class ProgrammersLv0Test {
 
 	@Test
 	public void solution_measure(){
-		assertThat(pc.solution_measure(24)).isEqualTo(new int[]{1,2,4,6,12,24});
+		assertThat(pc.solution_measure(24)).isEqualTo(new int[]{1, 2, 3, 4, 6, 8, 12, 24});
 	}
 
 	@Test
 	public void solution_369(){
-		assertThat(pc.solution_369(24)).isEqualTo(2);
+		assertThat(pc.solution_369(3)).isEqualTo(1);
+		assertThat(pc.solution_369(29423)).isEqualTo(2);
 	}
 
 	@Test

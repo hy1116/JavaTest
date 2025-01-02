@@ -23,9 +23,7 @@ public class ProgrammersLv0 {
 	}
 
 	public int solution_dice(int[] box, int n) {
-		int answer = 0;
-
-		return answer;
+		return (int) (Math.floor(box[0]/n)*Math.floor(box[1]/n)*Math.floor(box[2]/n));
 	}
 
 	public int solution(int n) {
@@ -52,7 +50,22 @@ public class ProgrammersLv0 {
 	}
 	// 배열의 원소만큼 추가하기
 	public int[] solution_addElement(int[] arr) {
-		return Arrays.stream(arr).mapToObj(a->String.valueOf(a).repeat(a)).mapToInt(Integer::valueOf).toArray();
+		/*
+		// script version
+		let answer = [];
+		arr.forEach((ele) => {
+			for(let i=0;i<ele;i++) answer.push(ele);
+		})
+		return answer;
+		*/
+		List<Integer> list = new ArrayList<>();
+		for(int num :arr){
+			for(int i=0;i<num;i++){
+				list.add(num);
+			}
+
+		}
+		return list.stream().mapToInt(Integer::intValue).toArray();
 	}
 
 	public int solution_dice2(int a,int b,int c) {
@@ -72,14 +85,22 @@ public class ProgrammersLv0 {
 	}
 
 	public int[] solution_query2(int[] arr, int[][] queries) {
+		/*
+		// script version
+		return queries.map(q=>{
+			let min = Math.min(...arr.slice(q[0],q[1]+1).filter(a=>q[2]<a));
+			if(min==Infinity) return -1;
+			else return min;
+		});
+		*/
+
 		List<Integer> arrList = Arrays.stream(arr).boxed().collect(Collectors.toList());
 		return Arrays.stream(queries)
 				.mapToInt(q -> {
-					OptionalInt result = arrList.stream().skip(q[0]).limit(q[1])
+					OptionalInt result = arrList.subList(q[0],q[1]+1).stream()
 							.filter(r->q[2]<r)
 							.mapToInt(Integer::intValue)
 							.min();
-					arrList.remove(result.getAsInt());
 					return result.orElse(-1);
 				})
 				.toArray();
@@ -99,9 +120,9 @@ public class ProgrammersLv0 {
 		return IntStream.rangeClosed(1,n).filter(r->n%r==0).toArray();
 	}
 
-	public int solution_369(int n) {
+	public int solution_369(int order) {
 		List<String> arr = List.of("3","6","9");
-		return (int)Arrays.stream(String.valueOf(n).split("")).filter(arr::contains).count();
+		return (int)Arrays.stream(String.valueOf(order).split("")).filter(arr::contains).count();
 	}
 
 	public String solution_duplicate(String s) {
